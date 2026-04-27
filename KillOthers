@@ -1,0 +1,21 @@
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ButtonPushed = ReplicatedStorage:WaitForChild("ButtonPushed")
+
+local teleportLocation = workspace.NeutralStart
+local Player = game:GetService("Players")
+
+
+ButtonPushed.Event:Connect(function(playerWhoPushed)
+	for _, player in pairs(Player:GetPlayers()) do
+		if player ~= playerWhoPushed then
+			local character = player.Character
+			if character then
+				character:PivotTo(teleportLocation.CFrame + Vector3.new(0,10,0))
+				local humanoid = character:FindFirstChildOfClass("Humanoid")
+				if humanoid then
+					humanoid.Health = 0
+				end
+			end
+		end
+	end
+end)

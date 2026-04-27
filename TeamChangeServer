@@ -1,0 +1,19 @@
+local replicatedStorage = game:GetService("ReplicatedStorage")
+local TeamChangeEvent = replicatedStorage:WaitForChild("TeamChange")
+local Teams = game:GetService("Teams")
+
+
+--local character = myPlayer.Character:Wait()
+
+TeamChangeEvent.OnServerEvent:Connect(function(player, teamName, Loc)
+	local team = Teams:FindFirstChild(teamName)
+	if team then
+		player.Team = team
+		player.TeamColor = team.TeamColor
+	end
+	local location = game.Workspace:FindFirstChild(Loc)
+	if location then
+		player.Character:PivotTo(location.CFrame + Vector3.new(0,10,0))
+		
+	end
+end)

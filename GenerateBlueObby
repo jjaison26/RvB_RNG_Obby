@@ -1,0 +1,97 @@
+local ServerStorage = game:GetService("ServerStorage")
+local Workspace = game:GetService("Workspace")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ButtonPushed = ReplicatedStorage:WaitForChild("ButtonPushed")
+
+local BlueFolder = ServerStorage:WaitForChild("BlueObby")
+local spawnedFolder = Workspace:WaitForChild("SpawnedModelsBlue")
+
+local posX = -3
+local Rng = Random.new()
+
+local function despawnAllModels()
+	for _, model in pairs(spawnedFolder:GetChildren()) do
+		model:Destroy()
+	end
+end
+
+local function generateFirstSet()
+	despawnAllModels()
+	local modelsToSpawn = {}
+	for _, model in pairs(BlueFolder:GetChildren()) do
+		table.insert(modelsToSpawn, model)
+	end
+
+	local currX = posX
+	local spawnedThisCycle = {}
+
+	while #modelsToSpawn > 0 do
+		local randomIndex = Rng:NextInteger(1, #modelsToSpawn)
+		local modelToClone = modelsToSpawn[randomIndex]
+
+		if modelToClone.Name == "SimpleJumps_Blue" then
+			currX += 74
+		end
+		if modelToClone.Name == "LBridge_Blue" then
+			currX += 60
+		end
+		if modelToClone.Name == "MBridge_Blue" then
+			currX += 60
+		end
+		if modelToClone.Name == "RBridge_Blue" then
+			currX += 60
+		end
+		if modelToClone.Name == "MediumLavaJump_BlueModel" then
+			currX += 80
+		end
+		local newModel = modelToClone:Clone()
+		newModel:PivotTo(CFrame.new(Vector3.new(currX, 0.5, -2)))
+		newModel.Parent = spawnedFolder
+		table.remove(modelsToSpawn, randomIndex)
+
+	end
+end
+
+local function generateNewSet()
+	despawnAllModels()
+	wait(5)
+	local modelsToSpawn = {}
+	for _, model in pairs(BlueFolder:GetChildren()) do
+		table.insert(modelsToSpawn, model)
+	end
+	
+	local currX = posX
+	local spawnedThisCycle = {}
+	
+	while #modelsToSpawn > 0 do
+		local randomIndex = Rng:NextInteger(1, #modelsToSpawn)
+		local modelToClone = modelsToSpawn[randomIndex]
+		
+		if modelToClone.Name == "SimpleJumps_Blue" then
+			currX += 74
+		end
+		if modelToClone.Name == "LBridge_Blue" then
+			currX += 60
+		end
+		if modelToClone.Name == "MBridge_Blue" then
+			currX += 60
+		end
+		if modelToClone.Name == "RBridge_Blue" then
+			currX += 60
+		end
+		if modelToClone.Name == "MediumLavaJump_BlueModel" then
+			currX += 80
+		end
+		local newModel = modelToClone:Clone()
+		newModel:PivotTo(CFrame.new(Vector3.new(currX, 0.5, -2)))
+		newModel.Parent = spawnedFolder
+		table.remove(modelsToSpawn, randomIndex)
+		
+	end
+end
+
+
+
+generateFirstSet()
+
+ButtonPushed.Event:Connect(generateNewSet)
